@@ -197,6 +197,27 @@
 /// before the signal finishes or the method times out.
 - (id)asynchronousFirstOrDefault:(id)defaultValue success:(BOOL *)success error:(NSError **)error;
 
+/// Spins the main run loop for a short while, waiting for the receiver to send a `next` until timeout.
+///
+/// **Because this method executes the run loop recursively, it should only be used
+/// on the main thread, and only from a unit test.**
+///
+/// defaultValue - Returned if the receiver completes or errors before sending
+///                a `next`, or if the method times out. This argument may be
+///                nil.
+/// timeout      - Wait for the receiver until {timeout} seconds
+/// success      - If not NULL, set to whether the receiver completed
+///                successfully.
+/// error        - If not NULL, set to any error that occurred.
+///
+/// Returns the first value received, or `defaultValue` if no value is received
+/// before the signal finishes or the method times out.
+- (id)asynchronousFirstOrDefault:(id)defaultValue
+                         timeout:(NSTimeInterval)timeout
+                         success:(BOOL *)success
+                           error:(NSError **)error;
+
+
 /// Spins the main run loop for a short while, waiting for the receiver to complete.
 ///
 /// **Because this method executes the run loop recursively, it should only be used
@@ -207,6 +228,21 @@
 /// Returns whether the signal completed successfully before timing out. If NO,
 /// `error` will be set to any error that occurred.
 - (BOOL)asynchronouslyWaitUntilCompleted:(NSError **)error;
+
+
+/// Spins the main run loop for a short while, waiting for the receiver to complete until timeout.
+///
+/// **Because this method executes the run loop recursively, it should only be used
+/// on the main thread, and only from a unit test.**
+///
+/// timeout - Wait for the receiver to complete before {timeout} seconds.
+/// error - If not NULL, set to any error that occurs.
+///
+/// Returns whether the signal completed successfully before timing out. If NO,
+/// `error` will be set to any error that occurred.
+- (BOOL)asynchronouslyWaitUntilCompletedWithTimeout:(NSTimeInterval)timeout
+                                              error:(NSError **)error;
+
 
 @end
 
