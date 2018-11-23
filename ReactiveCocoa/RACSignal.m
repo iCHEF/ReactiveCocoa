@@ -364,47 +364,68 @@
 
 static const NSTimeInterval RACSignalAsynchronousWaitTimeout = 10;
 
-- (id)asynchronousFirstOrDefault:(id)defaultValue success:(BOOL *)success error:(NSError **)error {
-	NSCAssert([NSThread isMainThread], @"%s should only be used from the main thread", __func__);
+- (id)asynchronousFirstOrDefault:(id)defaultValue
+                         timeout:(NSTimeInterval)timeout
+                         success:(BOOL *)success
+                           error:(NSError **)error {
+    NSCAssert([NSThread isMainThread], @"%s should only be used from the main thread", __func__);
+    
+    __block id result = defaultValue;
+    __block BOOL done = NO;
+    
+    // Ensures that we don't pass values across thread boundaries by reference.
+    __block NSError *localError;
+    __block BOOL localSuccess = YES;
+    
+    [[[[self
+        take:1]
+       timeout:timeout onScheduler:[RACScheduler scheduler]]
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(id x) {
+         result = x;
+         done = YES;
+     } error:^(NSError *e) {
+         if (!done) {
+             localSuccess = NO;
+             localError = e;
+             done = YES;
+         }
+     } completed:^{
+         done = YES;
+     }];
+    
+    do {
+        [NSRunLoop.mainRunLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    } while (!done);
+    
+    if (success != NULL) *success = localSuccess;
+    if (error != NULL) *error = localError;
+    
+    return result;
+}
 
-	__block id result = defaultValue;
-	__block BOOL done = NO;
+- (id)asynchronousFirstOrDefault:(id)defaultValue
+                         success:(BOOL *)success
+                           error:(NSError **)error {
+    return [self asynchronousFirstOrDefault:defaultValue
+                                    timeout:RACSignalAsynchronousWaitTimeout
+                                    success:success
+                                      error:error];
+}
 
-	// Ensures that we don't pass values across thread boundaries by reference.
-	__block NSError *localError;
-	__block BOOL localSuccess = YES;
-
-	[[[[self
-		take:1]
-		timeout:RACSignalAsynchronousWaitTimeout onScheduler:[RACScheduler scheduler]]
-		deliverOn:RACScheduler.mainThreadScheduler]
-		subscribeNext:^(id x) {
-			result = x;
-			done = YES;
-		} error:^(NSError *e) {
-			if (!done) {
-				localSuccess = NO;
-				localError = e;
-				done = YES;
-			}
-		} completed:^{
-			done = YES;
-		}];
-	
-	do {
-		[NSRunLoop.mainRunLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-	} while (!done);
-
-	if (success != NULL) *success = localSuccess;
-	if (error != NULL) *error = localError;
-
-	return result;
+- (BOOL)asynchronouslyWaitUntilCompletedWithTimeout:(NSTimeInterval)timeout
+                                              error:(NSError **)error {
+    BOOL success = NO;
+    [[self ignoreValues] asynchronousFirstOrDefault:nil
+                                            timeout:timeout
+                                            success:&success
+                                              error:error];
+    return success;
 }
 
 - (BOOL)asynchronouslyWaitUntilCompleted:(NSError **)error {
-	BOOL success = NO;
-	[[self ignoreValues] asynchronousFirstOrDefault:nil success:&success error:error];
-	return success;
+    return [self asynchronouslyWaitUntilCompletedWithTimeout:RACSignalAsynchronousWaitTimeout
+                                                       error:error];
 }
 
 @end

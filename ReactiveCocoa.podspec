@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ReactiveCocoa"
-  s.version      = "2.5.1"
+  s.version      = "2.5.2"
   s.summary      = "Streams of values over time"
   s.description  = <<-DESC
   ReactiveCocoa (RAC) is an Objective-C framework inspired by Functional Reactive Programming. It provides APIs for composing and transforming streams of values.
