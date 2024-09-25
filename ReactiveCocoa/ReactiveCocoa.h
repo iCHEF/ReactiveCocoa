@@ -26,6 +26,7 @@ FOUNDATION_EXPORT const unsigned char ReactiveCocoaVersionString[];
 #import <ReactiveCocoa/NSObject+RACLifting.h>
 #import <ReactiveCocoa/NSObject+RACPropertySubscribing.h>
 #import <ReactiveCocoa/NSObject+RACSelectorSignal.h>
+#import <ReactiveCocoa/NSObject+RACDescription.h>
 #import <ReactiveCocoa/NSOrderedSet+RACSequenceAdditions.h>
 #import <ReactiveCocoa/NSSet+RACSequenceAdditions.h>
 #import <ReactiveCocoa/NSString+RACSequenceAdditions.h>

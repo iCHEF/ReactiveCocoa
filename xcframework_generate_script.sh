@@ -11,7 +11,7 @@ proj_name=( *.xcodeproj )
 # 以上面提的範例的話，會得到 "kkbox" 這樣的字串。
 # scheme_name=$(xcodebuild -list -project "$proj_name.xcodeproj" | grep iOS | head -n 1)
 # scheme_name="${proj_name%.*}"
-scheme_name='ReactiveCocoa iOS'
+scheme_name='ReactiveCocoa-iOS'
 echo "Successful get scheme name: $scheme_name"
 
 # 打印出目前 xcode 使用的版本
@@ -39,11 +39,11 @@ ALWAYS_SEARCH_USER_PATHS=NO
 
 # 合併以上兩個版本成為一個 xcframework 
 
-framework_name="${proj_name%.*}"
-# framework_name="ReactiveCocoa"
+# framework_name="${proj_name%.*}"
+framework_name="ReactiveCocoa"
 xcodebuild -create-xcframework \
--framework ./archives/iOS.xcarchive/Products/Library/Frameworks/$scheme_name.framework \
--framework ./archives/Simulator.xcarchive/Products/Library/Frameworks/$scheme_name.framework \
--output ./archives/$scheme_name.xcframework
+-framework ./archives/iOS.xcarchive/Products/Framework/$framework_name.framework \
+-framework ./archives/Simulator.xcarchive/Products/Framework/$framework_name.framework \
+-output ./archives/ReactiveCocoa.xcframework
 
 exit 0
