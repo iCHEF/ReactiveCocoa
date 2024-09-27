@@ -395,6 +395,7 @@
 		D047261719E49F82006002AA /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D047260C19E49F82006002AA /* ReactiveCocoa.framework */; };
 		D05E662519EDD82000904ACA /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E662419EDD82000904ACA /* Nimble.framework */; };
 		D05E662619EDD83000904ACA /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E662419EDD82000904ACA /* Nimble.framework */; };
+		E9F9B0142CA4028A00B139AB /* NSObject+RACDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = D037644219EDA41200A782A9 /* NSObject+RACDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1268,6 +1269,7 @@
 				D03765D719EDA41200A782A9 /* RACSignal+Operations.h in Headers */,
 				D037665D19EDA41200A782A9 /* UITextField+RACSignalSupport.h in Headers */,
 				D037664919EDA41200A782A9 /* UISlider+RACSignalSupport.h in Headers */,
+				E9F9B0142CA4028A00B139AB /* NSObject+RACDescription.h in Headers */,
 				D03765BF19EDA41200A782A9 /* RACScheduler.h in Headers */,
 				D03764E919EDA41200A782A9 /* NSArray+RACSequenceAdditions.h in Headers */,
 				D037654919EDA41200A782A9 /* NSUserDefaults+RACSupport.h in Headers */,
@@ -1402,6 +1404,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = D04725E019E49ED7006002AA;
@@ -1844,7 +1847,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = ReactiveCocoa/Info.plist;
+				INSTALL_PATH = Framework;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
 				USER_HEADER_SEARCH_PATHS = ReactiveCocoa/extobjc;
 			};
 			name = Debug;
@@ -1856,7 +1863,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = ReactiveCocoa/Info.plist;
+				INSTALL_PATH = Framework;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
 				USER_HEADER_SEARCH_PATHS = ReactiveCocoa/extobjc;
 			};
 			name = Release;
@@ -1940,7 +1951,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = ReactiveCocoa/Info.plist;
+				INSTALL_PATH = Framework;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
 				USER_HEADER_SEARCH_PATHS = ReactiveCocoa/extobjc;
 			};
 			name = Profile;
@@ -2009,7 +2024,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = ReactiveCocoa/Info.plist;
+				INSTALL_PATH = Framework;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(PRODUCT_NAME).$(WRAPPER_EXTENSION)/$(PRODUCT_NAME)";
 				USER_HEADER_SEARCH_PATHS = ReactiveCocoa/extobjc;
 			};
 			name = Test;
