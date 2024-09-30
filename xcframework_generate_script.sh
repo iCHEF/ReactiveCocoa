@@ -7,14 +7,6 @@ echo "### start execute script"
 proj_name=( *.xcodeproj )
 [[ -e $proj_name ]] || { echo "Not found *.xcodeproj"; exit 1; }
 
-# 字串處理，取前段半為專案 scheme name。
-# 以上面提的範例的話，會得到 "kkbox" 這樣的字串。
-# scheme_name=$(xcodebuild -list -project "$proj_name.xcodeproj" | grep iOS | head -n 1)
-# scheme_name="${proj_name%.*}"
-scheme_name='ReactiveCocoa-iOS'
-echo "Successful get scheme name: $scheme_name"
-
-# 打印出目前 xcode 使用的版本
 xcodebuild -version
 
 # archive 出實體機版本的 framework
@@ -42,8 +34,11 @@ ALWAYS_SEARCH_USER_PATHS=NO
 # framework_name="${proj_name%.*}"
 framework_name="ReactiveCocoa"
 xcodebuild -create-xcframework \
--framework ./archives/iOS.xcarchive/Products/Framework/$framework_name.framework \
--framework ./archives/Simulator.xcarchive/Products/Framework/$framework_name.framework \
+-archive archives/iOS.xcarchive -framework ReactiveCocoa.framework \
+-archive archives/Simulator.xcarchive -framework ReactiveCocoa.framework \
 -output ./archives/ReactiveCocoa.xcframework
+# -framework ./archives/iOS.xcarchive/Products/Library/Frameworks/$framework_name.framework \
+# -framework ./archives/Simulator.xcarchive/Products/Library/Frameworks/$framework_name.framework \
+
 
 exit 0
